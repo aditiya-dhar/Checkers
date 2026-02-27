@@ -4,10 +4,10 @@ The main file holds menu operations for the game including sound, settings, lead
 
 """
 import pygame
-from SecondMenu import SecondMenu
-from constants import BLUE, YELLOW, RED, GREEN
-from ScoreManager import ScoreManager
-from SecondMenu import SecondMenu
+from checkers.ui.second_menu import SecondMenu
+from checkers.core.constants import BLUE, YELLOW, RED, GREEN
+from checkers.utils.score_manager import ScoreManager
+from checkers.ui.second_menu import SecondMenu
 
 
 pygame.init()

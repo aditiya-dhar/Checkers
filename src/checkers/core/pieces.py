@@ -3,7 +3,7 @@ Pieces.py
 The Pieces File holds the Pieces class which is responsible for managing the pieces.
 """
 
-from constants import SQUARE_SIZE, GREY, KING
+from checkers.core.constants import SQUARE_SIZE, GREY, KING
 import pygame
 
 class Piece:

@@ -7,7 +7,7 @@ Code from reference repo: https://github.com/techwithtim/Python-Checkers-AI
 
 from copy import deepcopy
 import pygame
-from constants import RED, WHITE
+from checkers.core.constants import RED, WHITE
 
 def minimax(position, depth, max_player, game): 
     """

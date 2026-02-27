@@ -3,7 +3,7 @@ SharedObjects.py
 The SharedObjects file is used to create a shared instance of the BackgroundMusic class.
 """
 
-from MusicClass import BackgroundMusic
+from checkers.ui.music import BackgroundMusic
 import pygame
 
 # Initialize Pygame
