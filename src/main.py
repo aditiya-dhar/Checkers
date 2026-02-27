@@ -453,7 +453,7 @@ def show_leaderboard():
     header_rect = header_text.get_rect(center=(500, 40))
     leaderboard_screen.blit(header_text, header_rect)
     
-    score_manager = ScoreManager("user_data/user_data.json")
+    score_manager = ScoreManager("./src/user_data/user_data.json")
     # Load scores from the JSON file
     score_manager.load_scores()
 
