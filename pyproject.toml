@@ -9,4 +9,4 @@ dependencies = [
 ]
 
 [project.scripts]
-start = "checkers.main:main_func"
+start = "checkers.main:main"
