@@ -22,7 +22,7 @@ pygame.init()
 
 player1_name = Player("Player 1", 0)
 player2_name = Player("Player 2", 0)
-score_manager = ScoreManager("./src/user_data/user_data.json")
+score_manager = ScoreManager("./data/user_data.json")
 cursor_color = (100, 100, 100) # darker grey
 color = (128, 128, 128) # grey
 
