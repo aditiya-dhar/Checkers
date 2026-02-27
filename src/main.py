@@ -399,7 +399,7 @@ def settings():
     button_font = pygame.font.Font(None, 32)
 
     # Music Button
-    music_icon = pygame.image.load('pics/music_icon.png')
+    music_icon = pygame.image.load('./assets/images/music_icon.png')
     position = (Width // 2 - 150, Height // 3 + button_height + spacing)
     size = (300, button_height)  # width, height
     button_text = button_font.render("Music (On/Off)", True, (255, 255, 255))  # Button text and color
@@ -501,7 +501,7 @@ def board_customization():
     It allows the user to exit the board customization after clicking the exit button.
     """
     board_customization_screen = pygame.display.set_mode([Width, Height])
-    background_image = pygame.image.load("./checkers.jpg")
+    background_image = pygame.image.load("./assets/images/checkers.jpg")
     background_image = pygame.transform.scale(background_image, (Width, Height))
     # image of the background
     board_customization_screen.blit(background_image, (0, 0))
