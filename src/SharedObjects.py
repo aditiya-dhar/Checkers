@@ -13,7 +13,7 @@ pygame.init()
 pygame.mixer.init()
 
 # Initial tracks
-initial_tracks = ["music/Track1.mp3", "music/Track2.mp3", "music/Track3.mp3", "music/Track4.mp3", "music/Track5.mp3", "music/Track6.mp3", "music/Track7.mp3", "music/Track8.mp3"]
+initial_tracks = ["./assets/music/Track1.mp3", "./assets/music/Track2.mp3", "./assets/music/Track3.mp3", "./assets/music/Track4.mp3", "./assets/music/Track5.mp3", "./assets/music/Track6.mp3", "./assets/music/Track7.mp3", "./assets/music/Track8.mp3"]
 
 # Create a shared instance of BackgroundMusic with the initial tracks
 background_music = BackgroundMusic(initial_tracks)

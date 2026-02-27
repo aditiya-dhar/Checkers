@@ -20,7 +20,7 @@ screen = pygame.display.set_mode([Width, Height])
 pygame.display.set_caption("Checkers+")
 
 # background music
-tracks = ["music/Track1.mp3", "music/Track2.mp3", "music/Track3.mp3", "music/Track4.mp3", "music/Track5.mp3", "music/Track6.mp3", "music/Track7.mp3", "music/Track8.mp3"] # can add more or delete tracks if we do not like them
+tracks = ["./assets/music/Track1.mp3", "./assets/music/Track2.mp3", "./assets/music/Track3.mp3", "./assets/music/Track4.mp3", "./assets/music/Track5.mp3", "./assets/music/Track6.mp3", "./assets/music/Track7.mp3", "./assets/music/Track8.mp3"] # can add more or delete tracks if we do not like them
 current_track = 0
 SONG_END = pygame.USEREVENT + 1
 second_menu = SecondMenu(tracks)
@@ -44,7 +44,7 @@ game_title = "Checkers+"
 message = "Checkers with a twist! For all ages and skill levels!"
 credits1 = "Developed by Wander Cerda-Torres, Barry Lin,"
 credits2 = "Nathan McCourt, Jonathan Stanczak, and Geonhee Yu"
-background_image = pygame.image.load("checkers.jpg")
+background_image = pygame.image.load("./assets/images/checkers.jpg")
 background_image = pygame.transform.scale(background_image, (Width, Height))  
 title_font = pygame.font.Font(None, 64)
 message_font = pygame.font.Font(None, 32)
@@ -113,7 +113,7 @@ def menu_buttons():
     spacing = 10
 
     # Start Game Button
-    startgame_icon = pygame.image.load('pics/start_icon.png')
+    startgame_icon = pygame.image.load('./assets/images/start_icon.png')
     # Draw the icon next to the text with the specified size
     startgame_icon_resized = pygame.transform.scale(startgame_icon, icon_size)
     startgame_icon_rect = startgame_icon_resized.get_rect(topleft=(Width // 2 - 150 + 10, Height // 3 + (button_height - icon_size[1] - 50) // 2))
@@ -144,7 +144,7 @@ def menu_buttons():
     screen.blit(startgame_icon_resized, startgame_icon_rect.topleft)  # Draw the icon after drawing the button
 
     # Settings Button    
-    settings_icon = pygame.image.load('pics/settings_icon.png')
+    settings_icon = pygame.image.load('./assets/images/settings_icon.png')
 
     position = (Width // 2 - 150, Height // 3 + button_height + spacing)
     size = (300, button_height)  # width, height
@@ -173,7 +173,7 @@ def menu_buttons():
     screen.blit(button_text, button_text_rect)
 
     # Tutorial button
-    tutorial_icon = pygame.image.load('pics/tutorial_icon.png')
+    tutorial_icon = pygame.image.load('./assets/images/tutorial_icon.png')
 
     color = (128, 128, 128) # grey
     cursor_color = (100, 100, 100) # darker grey
@@ -205,7 +205,7 @@ def menu_buttons():
     screen.blit(button_text, button_text_rect)
     
     # Leaderboard button
-    leaderboard_icon = pygame.image.load('pics/leaderboard_icon.png')
+    leaderboard_icon = pygame.image.load('./assets/images/leaderboard_icon.png')
 
     color = (128, 128, 128) # grey
     cursor_color = (100, 100, 100) # darker grey
@@ -240,7 +240,7 @@ def menu_buttons():
     screen.blit(button_text, button_text_rect)
 
     # Customize Board button
-    board_icon = pygame.image.load('pics/colorwheel_icon.png')
+    board_icon = pygame.image.load('./assets/images/colorwheel_icon.png')
 
     color = (128, 128, 128) # grey
     cursor_color = (100, 100, 100) # darker grey
@@ -501,7 +501,7 @@ def board_customization():
     It allows the user to exit the board customization after clicking the exit button.
     """
     board_customization_screen = pygame.display.set_mode([Width, Height])
-    background_image = pygame.image.load("checkers.jpg")
+    background_image = pygame.image.load("./checkers.jpg")
     background_image = pygame.transform.scale(background_image, (Width, Height))
     # image of the background
     board_customization_screen.blit(background_image, (0, 0))

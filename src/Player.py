@@ -5,7 +5,7 @@ The Player File holds the Player class which is responsible for managing the pla
 
 import pygame
 Width, Height = 1000, 700
-background_image = pygame.image.load("checkers.jpg")
+background_image = pygame.image.load("./assets/images/checkers.jpg")
 background_image = pygame.transform.scale(background_image, (Width, Height))
 screen = pygame.display.set_mode([Width, Height])
 
