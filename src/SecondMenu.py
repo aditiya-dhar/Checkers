@@ -15,7 +15,7 @@ from SharedObjects import background_music
 
 
 Width, Height = 1000, 700
-background_image = pygame.image.load("checkers.jpg")
+background_image = pygame.image.load("./assets/images/checkers.jpg")
 background_image = pygame.transform.scale(background_image, (Width, Height))
 screen = pygame.display.set_mode([Width, Height])
 pygame.init()
@@ -66,7 +66,7 @@ class SecondMenu:
         credits_text2 = credits_font.render(credits2, True, (255, 255, 255))
         credits_rect2 = credits_text2.get_rect(center=(Width // 2, 670))
 
-        background_image = pygame.image.load("checkers.jpg")
+        background_image = pygame.image.load("./assets/images/checkers.jpg")
         background_image = pygame.transform.scale(background_image, (Width, Height))
 
         title_font = pygame.font.Font(None, 64)
