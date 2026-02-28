@@ -280,7 +280,7 @@ def tutorial():
     """
     
     # load image used in tutorial
-    checkers_icon = pygame.image.load('pics/checkersguy_icon.png')
+    checkers_icon = pygame.image.load('./assets/images/checkersguy_icon.png')
     tutorial_screen = pygame.display.set_mode([Width, Height])
     tutorial_screen.fill((128, 128, 128))
 
@@ -453,7 +453,7 @@ def show_leaderboard():
     header_rect = header_text.get_rect(center=(500, 40))
     leaderboard_screen.blit(header_text, header_rect)
     
-    score_manager = ScoreManager("./src/user_data/user_data.json")
+    score_manager = ScoreManager("./data/user_data.json")
     # Load scores from the JSON file
     score_manager.load_scores()
 
