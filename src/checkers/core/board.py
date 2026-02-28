@@ -4,8 +4,8 @@ The Main_Board File holds the Main_Board class which is responsible for managing
 """
 
 import pygame
-from constants import BLACK, ROWS, RED, SQUARE_SIZE, COLS, WHITE
-from pieces import Piece
+from checkers.core.constants import BLACK, ROWS, RED, SQUARE_SIZE, COLS, WHITE
+from checkers.core.pieces import Piece
 
 class Main_Board:
     """

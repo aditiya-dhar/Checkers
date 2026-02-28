@@ -4,7 +4,7 @@ The ScoreManager File holds the ScoreManager class which is responsible for mana
 """
 
 import json
-from Player import Player
+from checkers.core.player import Player
 
 class ScoreManager:
     """

@@ -4,14 +4,14 @@ The SecondMenu file and class powers the second menu of the game, which allows t
 The class also creates an object of the game class to create the game the users plays.
 """
 import pygame
-from Player import Player
-from Player import user_scores
-from ScoreManager import ScoreManager
-from constants import RED, SQUARE_SIZE, WHITE
-from game import Game
-from computer import minimax
-from MusicClass import BackgroundMusic
-from SharedObjects import background_music
+from checkers.core.player import Player
+from checkers.core.player import user_scores
+from checkers.utils.score_manager import ScoreManager
+from checkers.core.constants import RED, SQUARE_SIZE, WHITE
+from checkers.core.game import Game
+from checkers.core.engine import minimax
+from checkers.ui.music import BackgroundMusic
+from checkers.utils.shared import background_music
 
 
 Width, Height = 1000, 700

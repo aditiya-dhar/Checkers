@@ -3,8 +3,8 @@ Game.py
 The game file holds the game logic and game class.
 """
 import pygame
-from constants import RED, WHITE, YELLOW, SQUARE_SIZE
-from Main_Board import Main_Board
+from checkers.core.constants import RED, WHITE, YELLOW, SQUARE_SIZE
+from checkers.core.board import Main_Board
 
 class Game: 
     """
