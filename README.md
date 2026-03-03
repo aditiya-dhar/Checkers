@@ -22,8 +22,12 @@ simply run the application from inside the folder.
 - Running the application should now work!
 
 # Build and Installation Guide (MAC)
-- We currently do not have MAC instructions for the Checkers+ application. We hope to have this in future releases.
-
+- inside of the cloned directory run 
+- ```shell
+    pip install -e .
+- Once it finished run
+- ```shell
+    start 
 # Brainstorming Board
 - This board contains the initial features list as a path we would expect an intermediate player to take using Checkers+.
 - https://lucid.app/lucidspark/128ef961-9edf-4a88-8eaf-992d7faa5d74/edit?viewport_loc=-350%2C-445%2C3025%2C1429%2C0_0&invitationId=inv_e2d583a2-18f2-4676-8253-7a01ce813867
