@@ -315,6 +315,8 @@ def tutorial():
     icon_size = (100, 100)
     button_height = 50
     spacing = 10
+    color = (128, 128, 128)
+    cursor_color = (100, 100, 100)
     checkers_icon_resized = pygame.transform.scale(checkers_icon, icon_size)
     checkers_icon_rect = checkers_icon_resized.get_rect(topleft=(Width // 2 - 150 + 95, Height // 3+30 + (button_height - icon_size[1]) // 2))
     screen.blit(checkers_icon_resized, checkers_icon_rect.topleft) 
@@ -359,8 +361,6 @@ def tutorial():
     exit_button_font = pygame.font.Font(None, 32)
     exit_button_text = exit_button_font.render("Exit Tutorial", True, (255, 255, 255))
     exit_button_rect = exit_button_text.get_rect(center=(Width // 2, Height - 50))
-    pygame.draw.rect(tutorial_screen, (64, 64, 64), exit_button_rect.inflate(20, 10))
-    tutorial_screen.blit(exit_button_text, exit_button_rect)
 
     pygame.display.flip()
 
@@ -374,54 +374,46 @@ def tutorial():
                     return  # exit tutorial and return to menu
             elif event.type == SONG_END:
                 music_loop()
-                
+
+        mouse = pygame.mouse.get_pos()
+        button_rect_5 = pygame.Rect(exit_button_rect.x - 10, exit_button_rect.y - 5, exit_button_rect.width + 20, exit_button_rect.height + 10)
+        button_color_exit = cursor_color if button_rect_5.collidepoint(mouse) else color
+        pygame.draw.rect(tutorial_screen, button_color_exit, button_rect_5)
+        tutorial_screen.blit(exit_button_text, exit_button_rect)
+        pygame.display.flip()
+
 def settings():
     """
     The settings function displays the settings screen. It displays the music button that allows the user to stop and play the music. It allows the user to exit 
     the settings after clicking the exit button.
     """
     music_playing = True
-    # Used for buttons w/ images
-    icon_size = (45, 45)  # Adjust the size of the icon as needed
+    icon_size = (45, 45)
     button_height = 50
     spacing = 10
     settings_screen = pygame.display.set_mode([Width, Height])
-    screen.blit(background_image, (0, 0))
-    settings_screen.blit(title_text, title_rect)
-    settings_screen.blit(message_text, message_rect)
-    settings_screen.blit(credits_text1, credits_rect1)
-    settings_screen.blit(credits_text2, credits_rect2)
-
-    color = (128, 128, 128) # grey
-    cursor_color = (100, 100, 100) # darker grey
-    position = (Width // 2-150, Height // 3-25)
-    size = (300, 50)  # width, height
+    color = (128, 128, 128)
+    cursor_color = (100, 100, 100)
     button_font = pygame.font.Font(None, 32)
-
-    # Music Button
-    music_icon = pygame.image.load('./assets/images/music_icon.png')
-    position = (Width // 2 - 150, Height // 3 + button_height + spacing)
-    size = (300, button_height)  # width, height
-    button_text = button_font.render("Music (On/Off)", True, (255, 255, 255))  # Button text and color
-    button_text_rect = button_text.get_rect(center=(Width // 2, Height // 3 + button_height + spacing + button_height // 2))
-    # Draw the icon next to the text with the specified size
-    music_icon_resized = pygame.transform.scale(music_icon, icon_size)
-    music_icon_rect = music_icon_resized.get_rect(topleft=(Width // 2 - 150 + 10, Height // 3 + button_height + spacing + (button_height - icon_size[1]) // 2))
-    # Create button on screen using position and size parameters
-    pygame.draw.rect(settings_screen, color, pygame.Rect(position, size))
-    settings_screen.blit(music_icon_resized, music_icon_rect.topleft)  # Draw the icon after drawing the button
-    settings_screen.blit(button_text, button_text_rect)
-    button_rect_5 = pygame.Rect(position, size)
-
-    # Exit button to return back to menu
     exit_button_font = pygame.font.Font(None, 32)
+    clock = pygame.time.Clock()
+
+    # Music button layout/text/icon
+    music_icon = pygame.image.load('./assets/images/music_icon.png')
+    music_position = (Width // 2 - 150, Height // 3 + button_height + spacing)
+    music_size = (300, button_height)
+    button_text = button_font.render("Music (On/Off)", True, (255, 255, 255))
+    button_text_rect = button_text.get_rect(center=(Width // 2, Height // 3 + button_height + spacing + button_height // 2))
+    music_icon_resized = pygame.transform.scale(music_icon, icon_size)
+    music_icon_rect = music_icon_resized.get_rect(
+        topleft=(Width // 2 - 150 + 10, Height // 3 + button_height + spacing + (button_height - icon_size[1]) // 2)
+    )
+    button_rect_6 = pygame.Rect(music_position, music_size)
+
+    # Exit button layout/text
     exit_button_text = exit_button_font.render("Exit Settings", True, (255, 255, 255))
     exit_button_rect = exit_button_text.get_rect(center=(Width // 2, Height - 100))
-    pygame.draw.rect(settings_screen, (128, 128, 128), exit_button_rect.inflate(20, 10))
-    settings_screen.blit(exit_button_text, exit_button_rect)
-
-    pygame.display.flip()
-
+    button_rect_7 = pygame.Rect(exit_button_rect.x - 10, exit_button_rect.y - 5, exit_button_rect.width + 20, exit_button_rect.height + 10)
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -430,7 +422,7 @@ def settings():
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if exit_button_rect.collidepoint(event.pos):  # if exit settings button is clicked
                     return  # exit settings and return to menu
-                if button_rect_5.collidepoint(event.pos):  # if music button is clicked
+                if button_rect_6.collidepoint(event.pos):  # if music button is clicked
                     if pygame.mixer.music.get_busy():
                         pygame.mixer.music.stop()  # Stop the music
                         music_playing = False
@@ -440,11 +432,31 @@ def settings():
             elif event.type == SONG_END and music_playing == True:
                 music_loop()
 
+        # Redraw every frame so hover states update while mouse moves.
+        settings_screen.blit(background_image, (0, 0))
+        settings_screen.blit(title_text, title_rect)
+        settings_screen.blit(message_text, message_rect)
+        settings_screen.blit(credits_text1, credits_rect1)
+        settings_screen.blit(credits_text2, credits_rect2)
+
+        mouse = pygame.mouse.get_pos()
+        button_color = cursor_color if button_rect_6.collidepoint(mouse) else color
+        pygame.draw.rect(settings_screen, button_color, button_rect_6)
+        settings_screen.blit(music_icon_resized, music_icon_rect.topleft)
+        settings_screen.blit(button_text, button_text_rect)
+        button_color_exit = cursor_color if button_rect_7.collidepoint(mouse) else color
+        pygame.draw.rect(settings_screen, button_color_exit, button_rect_7)
+        settings_screen.blit(exit_button_text, exit_button_rect)
+
+        pygame.display.flip()
 def show_leaderboard():
     """
     The show leaderboard function displays the leaderboard screen. It displays the top ten players and their scores. It allows the user to exit the leaderboard after clicking the
     exit button.
     """
+
+    color = (128, 128, 128)
+    cursor_color = (100, 100, 100)
     leaderboard_screen = pygame.display.set_mode((1000, 700))
     screen.fill((128, 128, 128))
     # Leaderboard header
@@ -479,10 +491,7 @@ def show_leaderboard():
     exit_button_font = pygame.font.Font(None, 32)
     exit_button_text = exit_button_font.render("Return to Main Menu", True, (255, 255, 255))
     exit_button_rect = exit_button_text.get_rect(center=(Width // 2, Height - 50))
-    pygame.draw.rect(screen, (64, 64, 64), exit_button_rect.inflate(20, 10))
-    screen.blit(exit_button_text, exit_button_rect)
-
-    pygame.display.flip()
+    button_rect_8 = pygame.Rect(exit_button_rect.x - 10, exit_button_rect.y - 5, exit_button_rect.width + 20, exit_button_rect.height + 10)
 
     while True:
         for event in pygame.event.get():
@@ -495,11 +504,20 @@ def show_leaderboard():
             elif event.type == SONG_END:
                 music_loop()
 
+        mouse = pygame.mouse.get_pos()
+        button_color = cursor_color if button_rect_8.collidepoint(mouse) else color
+        pygame.draw.rect(screen, button_color, button_rect_8)
+        screen.blit(exit_button_text, exit_button_rect)
+
+        pygame.display.flip()
+
 def board_customization(): 
     """
     The board customization function displays the board customization screen. It allows the user to change the color of the board to red, blue, yellow, or green. 
     It allows the user to exit the board customization after clicking the exit button.
     """
+    color = (128, 128, 128)
+    cursor_color = (100, 100, 100)
     board_customization_screen = pygame.display.set_mode([Width, Height])
     background_image = pygame.image.load("./assets/images/checkers.jpg")
     background_image = pygame.transform.scale(background_image, (Width, Height))
@@ -539,7 +557,7 @@ def board_customization():
     pygame.draw.rect(board_customization_screen, GREEN, green_square_rect)  # Green square
 
     pygame.display.flip()
-
+    button_rect_9 = pygame.Rect(exit_button_rect.x - 10, exit_button_rect.y - 5, exit_button_rect.width + 20, exit_button_rect.height + 10)
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -558,5 +576,12 @@ def board_customization():
                     second_menu_instance.color = GREEN
             elif event.type == SONG_END:
                 music_loop()
+
+        mouse = pygame.mouse.get_pos()
+        button_color = cursor_color if button_rect_9.collidepoint(mouse) else color
+        pygame.draw.rect(screen, button_color, button_rect_9)
+        screen.blit(exit_button_text, exit_button_rect)
+
+        pygame.display.flip()
 
 main()
