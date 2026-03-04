@@ -62,11 +62,21 @@ class Game:
         """
         The display turn function displays the current turn on the screen.
         """
+         # formats the text and colors
         if self.turn == RED:
             text = f"Current Turn: RED"
+            rect_color = RED
+            font_color = WHITE
         else:
             text = f"Current Turn: WHITE"
-        text_surface = self.font.render(text, True, self.text_color)
+            rect_color = WHITE
+            font_color = (0,0,0)
+        text_surface = self.font.render(text, True, font_color)
+
+        # draw a background box so the current turn stands out
+        self.draw_rect(text_surface, rect_color, 715, 100)
+
+        # Render text
         self.screen.blit(text_surface, (715, 100))
 
     def display_piece_count(self): 
@@ -177,3 +187,13 @@ class Game:
         """
         self.board = board
         self.change_turn()
+    
+    def draw_rect(self, text_surface, color, x, y):
+        """
+        This draws a (given colored) rectangle around an item.
+        """
+        pad_x, pad_y = 8, 4
+        box_x, box_y = x - pad_x, y - pad_y
+        box_w = text_surface.get_width() + pad_x * 2
+        box_h = text_surface.get_height() + pad_y * 2
+        pygame.draw.rect(self.screen, color, (box_x, box_y, box_w, box_h))
