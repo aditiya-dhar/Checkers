@@ -83,12 +83,18 @@ class Game:
         """
         The display piece count function displays the piece count on the screen.
         """
+        # font size
+        font_size = pygame.font.Font(None, 22)
+
+        # text formatting
         text = f"RED Pieces Left: {self.board.red_left}"
         text2 = f"WHITE Pieces Left: {self.board.white_left}"
-        text_surface = self.font.render(text, True, self.text_color)
-        text_surface2 = self.font.render(text2, True, self.text_color)
+        text_surface = font_size.render(text, True, self.text_color)
+        text_surface2 = font_size.render(text2, True, self.text_color)
+
+        # render here
         self.screen.blit(text_surface, (715, 150))
-        self.screen.blit(text_surface2, (715, 200))
+        self.screen.blit(text_surface2, (715, 175))
 
     def display_player_names(self, player1, player2): 
         """
