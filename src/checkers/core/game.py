@@ -38,32 +38,40 @@ class Game:
         If the time is running out, the text color is set to red.
         """
 
-        # position of timer display (middle-top)
-        x = 715
-        y = 310
+        # position of timer display
+        x = 765
+        y = 290
 
         # get remaining time
         elapsed_time = pygame.time.get_ticks() - self.turn_start_time
         remaining_time = max(0, self.turn_timeout - elapsed_time)
         remaining_seconds = remaining_time // 1000 
 
-        # display timer
-        text = f"Move Timer: {remaining_seconds} s"
-        text_surface = self.font.render(text, True, self.text_color)
+        # text formatting for timer label and actual time
+        label_text = "Timer: "
+        label_surface = self.font.render(label_text, True, self.text_color)
 
-        # logic to change text color if time is running out
+        # logic to change color of timer when time is running out
         if remaining_time <= 3000:
-            text_surface = self.font.render(text, True, WHITE)
-            rect_color = RED
+            circle_color = RED
         else:
-            text_surface = self.font.render(text, True, self.text_color)
-            rect_color = (0,0,255)
-        
-        # rectangle background for timer
-        self.draw_rect(text_surface, rect_color, x, y)
+            circle_color = (0, 0, 255)
 
-        # Render text
-        self.screen.blit(text_surface, (x, y))
+        # ----- MAKE TIMER CIRCLE ----- #
+        # set circl positions for timer
+        label_width = label_surface.get_width()
+        radius = 30
+        cc_x = x + label_width + radius + 5
+        cc_y = y + label_surface.get_height() // 2
+
+        # draw circle with time remaining
+        self.draw_timer_circle(remaining_seconds, circle_color, cc_x, cc_y)
+        # ----------------------------- #
+
+        # Render here
+        self.screen.blit(label_surface, (x, y))
+
+        # change turn when time has run out
         if elapsed_time > self.turn_timeout:
             self.change_turn()
 
@@ -72,7 +80,7 @@ class Game:
         The display turn function displays the current turn on the screen.
         """
         # position of turn display
-        x = 715
+        x = 730
         y = 350
 
         # formats the text and colors
@@ -232,3 +240,22 @@ class Game:
         box_w = text_surface.get_width() + pad_x * 2
         box_h = text_surface.get_height() + pad_y * 2
         pygame.draw.rect(self.screen, color, (box_x, box_y, box_w, box_h))
+    
+    def draw_timer_circle(self, timer_num, color, center_x, center_y):
+        """
+        Draws a filled circle with the given number centered inside.
+        """
+        circle_radius = 30
+        
+        # Draw circle
+        pygame.draw.circle(self.screen, color, (center_x, center_y), circle_radius)
+        
+        # get the number of timer seconds remaining
+        num_surface = self.font.render(str(timer_num), True, WHITE)
+        
+        # place number in circle's center
+        num_x = center_x - num_surface.get_width() // 2
+        num_y = center_y - num_surface.get_height() // 2
+        
+        # render here
+        self.screen.blit(num_surface, (num_x, num_y))
