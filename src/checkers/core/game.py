@@ -38,23 +38,32 @@ class Game:
         If the time is running out, the text color is set to red.
         """
 
+        # position of timer display (middle-top)
+        x = 715
+        y = 310
+
         # get remaining time
         elapsed_time = pygame.time.get_ticks() - self.turn_start_time
         remaining_time = max(0, self.turn_timeout - elapsed_time)
         remaining_seconds = remaining_time // 1000 
-        
+
         # display timer
         text = f"Move Timer: {remaining_seconds} s"
         text_surface = self.font.render(text, True, self.text_color)
 
         # logic to change text color if time is running out
         if remaining_time <= 3000:
-            text_surface = self.font.render(text, True, self.text_urgent_color)
+            text_surface = self.font.render(text, True, WHITE)
+            rect_color = RED
         else:
-            text_surface = self.font.render(text, True, self.text_color)        
+            text_surface = self.font.render(text, True, self.text_color)
+            rect_color = (0,0,255)
+        
+        # rectangle background for timer
+        self.draw_rect(text_surface, rect_color, x, y)
 
         # Render text
-        self.screen.blit(text_surface, (715, 50))
+        self.screen.blit(text_surface, (x, y))
         if elapsed_time > self.turn_timeout:
             self.change_turn()
 
@@ -62,7 +71,11 @@ class Game:
         """
         The display turn function displays the current turn on the screen.
         """
-         # formats the text and colors
+        # position of turn display
+        x = 715
+        y = 350
+
+        # formats the text and colors
         if self.turn == RED:
             text = f"Current Turn: RED"
             rect_color = RED
@@ -74,15 +87,20 @@ class Game:
         text_surface = self.font.render(text, True, font_color)
 
         # draw a background box so the current turn stands out
-        self.draw_rect(text_surface, rect_color, 715, 100)
+        self.draw_rect(text_surface, rect_color, x, y)
 
-        # Render text
-        self.screen.blit(text_surface, (715, 100))
+        # render here
+        self.screen.blit(text_surface, (x, y))
 
     def display_piece_count(self): 
         """
         The display piece count function displays the piece count on the screen.
         """
+        # position of piece count
+        x = 715
+        y_r = 625
+        y_w = 650
+
         # font size
         font_size = pygame.font.Font(None, 22)
 
@@ -93,19 +111,30 @@ class Game:
         text_surface2 = font_size.render(text2, True, self.text_color)
 
         # render here
-        self.screen.blit(text_surface, (715, 150))
-        self.screen.blit(text_surface2, (715, 175))
+        self.screen.blit(text_surface, (x, y_r))
+        self.screen.blit(text_surface2, (x, y_w))
 
     def display_player_names(self, player1, player2): 
         """
         The display player names function displays the player names on the screen.
         """
-        text = f"Player 1: {player1}"
-        text2 = f"Player 2: {player2}"
-        text_surface = self.font.render(text, True, self.text_color)
-        text_surface2 = self.font.render(text2, True, self.text_color)
-        self.screen.blit(text_surface, (715, 350))
-        self.screen.blit(text_surface2, (715, 400))
+        # position of player display
+        x = 715
+        y_r = 50
+        y_w = 75
+
+        # font size
+        font_size = pygame.font.Font(None, 22)
+
+        # text formatting
+        text = f"Player 1 (Red): {player1}"
+        text2 = f"Player 2 (White): {player2}"
+        text_surface = font_size.render(text, True, self.text_color)
+        text_surface2 = font_size.render(text2, True, self.text_color)
+
+        # render here
+        self.screen.blit(text_surface, (x, y_r))
+        self.screen.blit(text_surface2, (x, y_w))
 
     def update(self): 
         """
