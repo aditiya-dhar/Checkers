@@ -92,6 +92,7 @@ class Game:
             text = f"Current Turn: WHITE"
             rect_color = WHITE
             font_color = (0,0,0)
+            x = 715
         text_surface = self.font.render(text, True, font_color)
 
         # draw a background box so the current turn stands out
