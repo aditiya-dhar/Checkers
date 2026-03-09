@@ -170,15 +170,15 @@ class SecondMenu:
                     if button_rect_3.collidepoint(event.pos):  # if exit button is clicked
                         return  # exit start game menu and return to menu
                     elif button_rect.collidepoint(event.pos):  # Start Game VS Player button clicked
-                        player1_name.get_player_name()
+                        player1_name.get_player_name(1)
                         score_manager.add_user(player1_name.username)
-                        player2_name.get_player_name()
+                        player2_name.get_player_name(2)
                         score_manager.add_user(player2_name.username)
                         self.start_game_vs_player(start_game_screen)
                         score_manager.save_scores()
                         return
                     elif button_rect_2.collidepoint(event.pos):  # Start Game VS Computer button clicked
-                        player1_name.get_player_name()
+                        player1_name.get_player_name(0)
                         score_manager.add_user(player1_name.username)
                         self.start_game_vs_computer(start_game_screen)
                         score_manager.save_scores()
