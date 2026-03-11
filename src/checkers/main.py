@@ -9,6 +9,11 @@ from checkers.core.constants import BLUE, YELLOW, RED, GREEN
 from checkers.utils.score_manager import ScoreManager
 from checkers.ui.second_menu import SecondMenu
 
+# --------------- TESTING REDDIT API --------------- #
+from checkers.utils.reddit_controller import get_reddit_data
+get_reddit_data()
+# --------------- TESTING REDDIT API --------------- #
+
 
 pygame.init()
 pygame.mixer.init() # initialize pygame mixer for music
