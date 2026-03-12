@@ -6,7 +6,7 @@ from checkers.types.reddit import RedditResponse, reddit_response_from_dict
 
 class RedditManager:
     """
-    Handles fetching Reddit data with a 24-hour file-based caching system.
+    Handles fetching Reddit data with a file-based caching system.
     """
     
     URL = "https://www.reddit.com/r/Temple/.json"
@@ -39,7 +39,7 @@ class RedditManager:
 
     def get_data(self) -> RedditResponse:
         """
-        The main entry point: Returns cached data or fresh data depending on file age.
+        Returns cached data or fresh data depending on file age.
         """
         if self._is_cache_fresh():
             with open(self.filename, 'r') as f:
