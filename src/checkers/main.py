@@ -403,13 +403,14 @@ def settings():
     music_position = (Width // 2 - 150, Height // 3 + button_height + spacing)
     music_size = (300, button_height)
     button_text = button_font.render("Music (On/Off)", True, (255, 255, 255))
+    button_music_setting = button_font.render("Music is currently ON", True, (255, 255, 255))
     button_text_rect = button_text.get_rect(center=(Width // 2, Height // 3 + button_height + spacing + button_height // 2))
+    button_music_setting_rect = button_music_setting.get_rect(center=(Width // 2, Height // 3 + button_height + spacing + button_height + 30))
     music_icon_resized = pygame.transform.scale(music_icon, icon_size)
     music_icon_rect = music_icon_resized.get_rect(
         topleft=(Width // 2 - 150 + 10, Height // 3 + button_height + spacing + (button_height - icon_size[1]) // 2)
     )
     button_rect_6 = pygame.Rect(music_position, music_size)
-
     # Exit button layout/text
     exit_button_text = exit_button_font.render("Exit Settings", True, (255, 255, 255))
     exit_button_rect = exit_button_text.get_rect(center=(Width // 2, Height - 100))
@@ -431,7 +432,10 @@ def settings():
                         music_playing = True
             elif event.type == SONG_END and music_playing == True:
                 music_loop()
-
+        if(music_playing):
+            button_music_setting = button_font.render("Music is currently ON", True, (255, 255, 255))
+        else:
+            button_music_setting = button_font.render("Music is currently OFF", True, (255, 255, 255))
         # Redraw every frame so hover states update while mouse moves.
         settings_screen.blit(background_image, (0, 0))
         settings_screen.blit(title_text, title_rect)
@@ -444,6 +448,8 @@ def settings():
         pygame.draw.rect(settings_screen, button_color, button_rect_6)
         settings_screen.blit(music_icon_resized, music_icon_rect.topleft)
         settings_screen.blit(button_text, button_text_rect)
+        pygame.draw.rect(settings_screen, color, button_music_setting_rect.inflate(30,5))
+        settings_screen.blit(button_music_setting, button_music_setting_rect)
         button_color_exit = cursor_color if button_rect_7.collidepoint(mouse) else color
         pygame.draw.rect(settings_screen, button_color_exit, button_rect_7)
         settings_screen.blit(exit_button_text, exit_button_rect)

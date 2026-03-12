@@ -25,7 +25,7 @@ class Player:
         self.win = 0
         
     
-    def draw_text_input(self, player_name, error_msg="name error"):
+    def draw_text_input(self, player_name, player_num, error_msg="name error"):
         """
         The draw text input function draws the text input box on the screen.
         """
@@ -35,7 +35,12 @@ class Player:
         pygame.draw.rect(screen, (128, 128, 128), (Width // 2 - 225, Height // 2 - 25, 450, 50))  # Adjust size and position as needed
 
         # Render the text on the background box
-        input_text = font.render("Enter Your Name: " + player_name, True, (255, 255, 255))
+        if(player_num == 1):
+            input_text = font.render("Player 1 Name: " + player_name, True, (255, 255, 255))
+        elif(player_num == 2):
+            input_text = font.render("Player 2 Name: " + player_name, True, (255, 255, 255))
+        else:
+            input_text = font.render("Enter Your Name: " + player_name, True, (255, 255, 255))
         input_rect = input_text.get_rect(center=(Width // 2, Height // 2))
         screen.blit(input_text, input_rect)
 
@@ -43,11 +48,13 @@ class Player:
         if error_msg:
             error_font = pygame.font.Font(None, 24)
             error_text = error_font.render(error_msg, True, (255, 0, 0))  # Red color for error message
-            error_rect = error_text.get_rect(center=(Width // 2, Height // 2 + 30))  # Adjust position as needed
+            error_rect = error_text.get_rect(center=(Width // 2, Height // 2 + 40))  # Adjust position as needed
+            pygame.draw.rect(screen, (55, 55, 55), error_rect)
             screen.blit(error_text, error_rect)
 
 
-    def get_player_name(self):
+
+    def get_player_name(self, player_num):
         """
         The get player name function gets the player name from the user and returns the player name.
         """
@@ -63,11 +70,11 @@ class Player:
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
                         #if player_name.isalnum() and len(player_name) <= 20:
-                        if (event.unicode.isalnum() or event.unicode.isspace()) and len(player_name) < 20:
+                        if (event.unicode.isalnum() or event.unicode.isspace()) and len(player_name) < 20 and len(player_name) > 0:
 
                             input_active = False  # Stop taking input when Enter is pressed and the name is valid
                         else:
-                            error_msg = "Invalid name. Please use English letters or numbers, and keep it under 20 characters."
+                            error_msg = "Invalid name. Please use English letters or numbers, can't be empty, and keep it under 20 characters."
                     elif event.key == pygame.K_BACKSPACE:
                         player_name = player_name[:-1]  # Remove the last character when Backspace is pressed
                     else:
@@ -78,7 +85,7 @@ class Player:
 
 
             screen.blit(background_image, (0, 0))
-            self.draw_text_input(player_name, error_msg)
+            self.draw_text_input(player_name, player_num, error_msg)
             pygame.display.flip()
             
         self.username = player_name

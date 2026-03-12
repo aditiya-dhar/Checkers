@@ -257,7 +257,7 @@ class SecondMenu:
                     elif button_rect.collidepoint(event.pos):
                         player1_name.get_player_name()
                         score_manager.add_user(player1_name.username)
-                        player2_name.get_player_name()
+                        player2_name.get_player_name(2)
                         score_manager.add_user(player2_name.username)
                         self.start_game_vs_player(start_game_screen)
                         score_manager.save_scores()

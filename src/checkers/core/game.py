@@ -34,18 +34,44 @@ class Game:
         
     def check_turn_timeout(self):
         """
-        The check turn timeout function checks the turn timeout and displays the move timer on the screen. If the time is running out, the text color is set to red.
+        Checks the turn timeout and displays the move timer on the screen.
+        If the time is running out, the text color is set to red.
         """
+
+        # position of timer display
+        x = 765
+        y = 290
+
+        # get remaining time
         elapsed_time = pygame.time.get_ticks() - self.turn_start_time
-        elapsed_seconds = elapsed_time // 1000 
-        text = f"Move Timer: {elapsed_seconds} s"
-        text_surface = self.font.render(text, True, self.text_color)
-        if elapsed_time > 3000:
-            text_surface = self.font.render(text, True, self.text_urgent_color)
+        remaining_time = max(0, self.turn_timeout - elapsed_time)
+        remaining_seconds = remaining_time // 1000 
+
+        # text formatting for timer label and actual time
+        label_text = "Timer: "
+        label_surface = self.font.render(label_text, True, self.text_color)
+
+        # logic to change color of timer when time is running out
+        if remaining_time <= 3000:
+            circle_color = RED
         else:
-            text_surface = self.font.render(text, True, self.text_color)
-        # Render text
-        self.screen.blit(text_surface, (715, 50))
+            circle_color = (0, 0, 255)
+
+        # ----- MAKE TIMER CIRCLE ----- #
+        # set circl positions for timer
+        label_width = label_surface.get_width()
+        radius = 30
+        cc_x = x + label_width + radius + 5
+        cc_y = y + label_surface.get_height() // 2
+
+        # draw circle with time remaining
+        self.draw_timer_circle(remaining_seconds, circle_color, cc_x, cc_y)
+        # ----------------------------- #
+
+        # Render here
+        self.screen.blit(label_surface, (x, y))
+
+        # change turn when time has run out
         if elapsed_time > self.turn_timeout:
             self.change_turn()
 
@@ -53,34 +79,71 @@ class Game:
         """
         The display turn function displays the current turn on the screen.
         """
+        # position of turn display
+        x = 730
+        y = 350
+
+        # formats the text and colors
         if self.turn == RED:
             text = f"Current Turn: RED"
+            rect_color = RED
+            font_color = WHITE
         else:
             text = f"Current Turn: WHITE"
-        text_surface = self.font.render(text, True, self.text_color)
-        self.screen.blit(text_surface, (715, 100))
+            rect_color = WHITE
+            font_color = (0,0,0)
+            x = 715
+        text_surface = self.font.render(text, True, font_color)
+
+        # draw a background box so the current turn stands out
+        self.draw_rect(text_surface, rect_color, x, y)
+
+        # render here
+        self.screen.blit(text_surface, (x, y))
 
     def display_piece_count(self): 
         """
         The display piece count function displays the piece count on the screen.
         """
+        # position of piece count
+        x = 715
+        y_r = 625
+        y_w = 650
+
+        # font size
+        font_size = pygame.font.Font(None, 22)
+
+        # text formatting
         text = f"RED Pieces Left: {self.board.red_left}"
         text2 = f"WHITE Pieces Left: {self.board.white_left}"
-        text_surface = self.font.render(text, True, self.text_color)
-        text_surface2 = self.font.render(text2, True, self.text_color)
-        self.screen.blit(text_surface, (715, 150))
-        self.screen.blit(text_surface2, (715, 200))
+        text_surface = font_size.render(text, True, self.text_color)
+        text_surface2 = font_size.render(text2, True, self.text_color)
+
+        # render here
+        self.screen.blit(text_surface, (x, y_r))
+        self.screen.blit(text_surface2, (x, y_w))
 
     def display_player_names(self, player1, player2): 
         """
         The display player names function displays the player names on the screen.
         """
-        text = f"Player 1: {player1}"
-        text2 = f"Player 2: {player2}"
-        text_surface = self.font.render(text, True, self.text_color)
-        text_surface2 = self.font.render(text2, True, self.text_color)
-        self.screen.blit(text_surface, (715, 350))
-        self.screen.blit(text_surface2, (715, 400))
+        # position of player display
+        x = 715
+        y_r = 50
+        y_w = 75
+
+        # font size
+        font_size = pygame.font.Font(None, 22)
+
+        # text formatting
+        text = f"Player 1 (Red): {player1}"
+        text2 = f"Player 2 (White): {player2}"
+        text_surface = font_size.render(text, True, self.text_color)
+        text_surface2 = font_size.render(text2, True, self.text_color)
+
+        # render here
+        self.screen.blit(text_surface, (x, y_r))
+        self.screen.blit(text_surface2, (x, y_w))
 
     def update(self): 
         """
@@ -168,3 +231,32 @@ class Game:
         """
         self.board = board
         self.change_turn()
+    
+    def draw_rect(self, text_surface, color, x, y):
+        """
+        This draws a (given colored) rectangle around an item.
+        """
+        pad_x, pad_y = 8, 4
+        box_x, box_y = x - pad_x, y - pad_y
+        box_w = text_surface.get_width() + pad_x * 2
+        box_h = text_surface.get_height() + pad_y * 2
+        pygame.draw.rect(self.screen, color, (box_x, box_y, box_w, box_h))
+    
+    def draw_timer_circle(self, timer_num, color, center_x, center_y):
+        """
+        Draws a filled circle with the given number centered inside.
+        """
+        circle_radius = 30
+        
+        # Draw circle
+        pygame.draw.circle(self.screen, color, (center_x, center_y), circle_radius)
+        
+        # get the number of timer seconds remaining
+        num_surface = self.font.render(str(timer_num), True, WHITE)
+        
+        # place number in circle's center
+        num_x = center_x - num_surface.get_width() // 2
+        num_y = center_y - num_surface.get_height() // 2
+        
+        # render here
+        self.screen.blit(num_surface, (num_x, num_y))
