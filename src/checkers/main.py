@@ -3,6 +3,7 @@ Main.py
 The main file holds menu operations for the game including sound, settings, leaderboard, tutorial, and board customization.
 
 """
+from checkers.utils.reddit_manager import RedditManager
 import pygame
 from checkers.ui.second_menu import SecondMenu
 from checkers.core.constants import BLUE, YELLOW, RED, GREEN
@@ -10,7 +11,7 @@ from checkers.utils.score_manager import ScoreManager
 from checkers.ui.second_menu import SecondMenu
 
 # --------------- TESTING REDDIT API --------------- #
-from checkers.utils.reddit_controller import get_reddit_data
+from checkers.utils.reddit_manager import get_reddit_data
 get_reddit_data()
 # --------------- TESTING REDDIT API --------------- #
 
@@ -477,6 +478,7 @@ def show_leaderboard():
     leaderboard_screen.blit(header_text, header_rect)
     
     score_manager = ScoreManager("./data/user_data.json")
+    reddit_manager = RedditManager("./data/r_slash_temple.json")
     # Load scores from the JSON file
     score_manager.load_scores()
 
