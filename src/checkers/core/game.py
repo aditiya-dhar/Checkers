@@ -32,6 +32,8 @@ class Game:
         self.screen = pygame.display.set_mode((1000, 700))
         self.player1 = player1
         self.player2 = player2
+        self.music_button_pressed = False # for music toggle
+        self.music_icon = pygame.transform.scale(pygame.image.load('./assets/images/music_icon.png'), (40, 40)) # music icon asset
         
     def check_turn_timeout(self):
         """
@@ -119,20 +121,30 @@ class Game:
 
         # position of mouse
         mx, my = pygame.mouse.get_pos()   
-
-        # icon asset
-        music_icon = pygame.transform.scale(pygame.image.load('./assets/images/music_icon.png'), (40, 40)) 
+        click = pygame.mouse.get_pressed()[0]
 
         # on hover: toggle formatting of button, on click: toggle music
         if ((mx - x) ** 2 + (my - y) ** 2 <= 40 ** 2):
             pygame.draw.circle(self.screen, GREY, (x, y), 40)
-            
+
+            if click and not self.music_button_pressed:
+                self.music_button_pressed = True
+
+                if pygame.mixer.music.get_busy():
+                    pygame.mixer.music.pause()
+                    music_playing = False
+                else:
+                    pygame.mixer.music.unpause()
+                    music_playing = True
         else:
             pygame.draw.circle(self.screen, WHITE, (x, y), 40)
 
+        if not click:
+            self.music_button_pressed = False
+
         # render icon
-        self.screen.blit(music_icon, (x2, y2))
-        if not music_playing:
+        self.screen.blit(self.music_icon, (x2, y2))
+        if not music_playing: # indicates toggle
                 pygame.draw.polygon(self.screen, (255,0,0), [(x-30,y+30),(x+60-30,y-60+30),(x+69-30,y-59+30),(x+3-30,y+3+30)])
 
     def display_piece_count(self): 
