@@ -3,7 +3,7 @@ Game.py
 The game file holds the game logic and game class.
 """
 import pygame
-from checkers.core.constants import RED, WHITE, YELLOW, SQUARE_SIZE
+from checkers.core.constants import RED, WHITE, YELLOW, SQUARE_SIZE, GREY
 from checkers.core.board import Main_Board
 
 class Game: 
@@ -101,6 +101,30 @@ class Game:
         # render here
         self.screen.blit(text_surface, (x, y))
 
+    def display_music_toggle(self):
+        """
+        The display music toggle function displays the music toggle on the screen.
+        """
+        # position of button
+        x = 945
+        y = 630
+
+        x2 = x - 20
+        y2 = y - 10
+
+        # toggle formatting
+        music_icon = pygame.transform.scale(pygame.image.load('./assets/images/music_icon.png'), (40, 40))
+
+        # Draw button circle
+        mx, my = pygame.mouse.get_pos()
+        if (mx - x) ** 2 + (my - y) ** 2 <= 40 ** 2:
+            pygame.draw.circle(self.screen, GREY, (x, y), 40)
+        else:
+            pygame.draw.circle(self.screen, WHITE, (x, y), 40)
+
+        # render here
+        self.screen.blit(music_icon, (x2, y2))
+
     def display_piece_count(self): 
         """
         The display piece count function displays the piece count on the screen.
@@ -155,6 +179,7 @@ class Game:
         self.display_turn()
         self.display_piece_count()
         self.display_player_names(self.player1, self.player2)
+        self.display_music_toggle()
         pygame.display.update()
         
     def winner(self): 
