@@ -24,9 +24,10 @@ def from_bool(x: Any) -> bool:
     return x
 
 
-def from_int(x: Any) -> int:
-    assert isinstance(x, int) and not isinstance(x, bool)
-    return x
+def from_int(x):
+    if isinstance(x, (int, float)) and not isinstance(x, bool):
+        return int(x)
+    raise AssertionError(f"Expected int or float, got {type(x)}")
 
 
 def from_list(f: Callable[[Any], T], x: Any) -> List[T]:
