@@ -3,6 +3,7 @@ Game.py
 The game file holds the game logic and game class.
 """
 import pygame
+from checkers.ui.music import BackgroundMusic
 from checkers.core.constants import RED, WHITE, YELLOW, SQUARE_SIZE, GREY
 from checkers.core.board import Main_Board
 
@@ -105,25 +106,34 @@ class Game:
         """
         The display music toggle function displays the music toggle on the screen.
         """
+        # check if music playing
+        music_playing = pygame.mixer.music.get_busy()
+
         # position of button
         x = 945
         y = 630
 
+        # position of icon
         x2 = x - 20
         y2 = y - 10
 
-        # toggle formatting
-        music_icon = pygame.transform.scale(pygame.image.load('./assets/images/music_icon.png'), (40, 40))
+        # position of mouse
+        mx, my = pygame.mouse.get_pos()   
 
-        # Draw button circle
-        mx, my = pygame.mouse.get_pos()
-        if (mx - x) ** 2 + (my - y) ** 2 <= 40 ** 2:
+        # icon asset
+        music_icon = pygame.transform.scale(pygame.image.load('./assets/images/music_icon.png'), (40, 40)) 
+
+        # on hover: toggle formatting of button, on click: toggle music
+        if ((mx - x) ** 2 + (my - y) ** 2 <= 40 ** 2):
             pygame.draw.circle(self.screen, GREY, (x, y), 40)
+            
         else:
             pygame.draw.circle(self.screen, WHITE, (x, y), 40)
 
-        # render here
+        # render icon
         self.screen.blit(music_icon, (x2, y2))
+        if not music_playing:
+                pygame.draw.polygon(self.screen, (255,0,0), [(x-30,y+30),(x+60-30,y-60+30),(x+69-30,y-59+30),(x+3-30,y+3+30)])
 
     def display_piece_count(self): 
         """
