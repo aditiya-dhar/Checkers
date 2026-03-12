@@ -70,7 +70,7 @@ class Player:
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
                         #if player_name.isalnum() and len(player_name) <= 20:
-                        if (event.unicode.isalnum() or event.unicode.isspace()) and len(player_name) < 20 and len(player_name) > 0:
+                        if ((event.unicode.isalnum() or event.unicode.isspace()) and len(player_name) < 20 and len(player_name) > 0):
 
                             input_active = False  # Stop taking input when Enter is pressed and the name is valid
                         else:
@@ -85,11 +85,14 @@ class Player:
 
 
             screen.blit(background_image, (0, 0))
+            if(player_name.isspace()):
+                error_msg = "Name can't be empty or just spaces."
+                input_active = True
+                player_name = ""
             self.draw_text_input(player_name, player_num, error_msg)
             pygame.display.flip()
-            
-        self.username = player_name
 
+        self.username = player_name
         return player_name
         
     def update_win(self):
