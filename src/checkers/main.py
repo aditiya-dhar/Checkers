@@ -77,6 +77,8 @@ def main():
 
     print(reddit_posts.data.children[0].data.title) # title of 1st post
     print(reddit_posts.data.children[0].data.selftext) # Text of 1st post
+
+    buttons = menu_buttons()
     
     while running:
         # did the user click the window close button?
@@ -84,7 +86,6 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                buttons = menu_buttons()
                 if buttons[0].collidepoint(event.pos): # If Start Game button is clicked, show the second menu
                    second_menu_instance.start_game_menu()
                 if buttons[2].collidepoint(event.pos): # if mouse is clicked on tutorial button
@@ -128,7 +129,7 @@ def menu_buttons():
 
     color = (128, 128, 128) # grey
     cursor_color = (100, 100, 100) # darker grey
-    position = (Width // 2-150, Height // 3-25)
+    position = (Width // 2 - 150, Height // 3-25)
     size = (300, 50)  # width, height
         
     button_font = pygame.font.Font(None, 32)
@@ -185,7 +186,7 @@ def menu_buttons():
 
     color = (128, 128, 128) # grey
     cursor_color = (100, 100, 100) # darker grey
-    position = (Width // 2-150, Height // 3 + 135)
+    position = (Width // 2 - 150, Height // 3 + 135)
     size = (300, 50)  # width, height
 
     button_font = pygame.font.Font(None, 32)
