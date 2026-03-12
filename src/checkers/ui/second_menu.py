@@ -255,7 +255,7 @@ class SecondMenu:
                     if button_rect_3.collidepoint(event.pos):
                         return
                     elif button_rect.collidepoint(event.pos):
-                        player1_name.get_player_name()
+                        player1_name.get_player_name(1)
                         score_manager.add_user(player1_name.username)
                         player2_name.get_player_name(2)
                         score_manager.add_user(player2_name.username)
@@ -263,7 +263,7 @@ class SecondMenu:
                         score_manager.save_scores()
                         return
                     elif button_rect_2.collidepoint(event.pos):
-                        player1_name.get_player_name()
+                        player1_name.get_player_name(0)
                         score_manager.add_user(player1_name.username)
                         self.start_game_vs_computer(start_game_screen)
                         score_manager.save_scores()
