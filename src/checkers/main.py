@@ -4,17 +4,12 @@ The main file holds menu operations for the game including sound, settings, lead
 
 """
 from checkers.utils.reddit_manager import RedditManager
+from checkers.types.reddit import RedditResponse
 import pygame
 from checkers.ui.second_menu import SecondMenu
 from checkers.core.constants import BLUE, YELLOW, RED, GREEN
 from checkers.utils.score_manager import ScoreManager
 from checkers.ui.second_menu import SecondMenu
-
-# --------------- TESTING REDDIT API --------------- #
-from checkers.utils.reddit_manager import get_reddit_data
-get_reddit_data()
-# --------------- TESTING REDDIT API --------------- #
-
 
 pygame.init()
 pygame.mixer.init() # initialize pygame mixer for music
@@ -76,6 +71,13 @@ def main():
     the corresponding function will be called.
     """
     running = True
+
+    reddit_manager = RedditManager(r"./data/r_slash_temple.json")
+    reddit_posts = reddit_manager.get_data();
+
+    print(reddit_posts.data.children[0].data.title) # title of 1st post
+    print(reddit_posts.data.children[0].data.selftext) # Text of 1st post
+    
     while running:
         # did the user click the window close button?
         for event in pygame.event.get():
@@ -478,7 +480,6 @@ def show_leaderboard():
     leaderboard_screen.blit(header_text, header_rect)
     
     score_manager = ScoreManager("./data/user_data.json")
-    reddit_manager = RedditManager("./data/r_slash_temple.json")
     # Load scores from the JSON file
     score_manager.load_scores()
 
