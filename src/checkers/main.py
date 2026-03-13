@@ -75,9 +75,6 @@ def main():
     reddit_manager = RedditManager(r"./data/r_slash_temple.json")
     reddit_posts = reddit_manager.get_data();
 
-    print(reddit_posts.data.children[0].data.title) # title of 1st post
-    print(reddit_posts.data.children[0].data.selftext) # Text of 1st post
-
     buttons = menu_buttons()
     
     while running:
@@ -106,11 +103,62 @@ def main():
         screen.blit(credits_text1, credits_rect1)
         screen.blit(credits_text2, credits_rect2)
         
+        draw_reddit_widget(reddit_posts)
         menu_buttons()
         pygame.display.flip()
 
     # done! time to quit
     pygame.quit()
+
+def draw_reddit_widget(reddit_posts: RedditResponse):
+    """
+    Draws a small widget on the right side of the screen showing the top 3 reddit posts.
+    """
+
+    widget_width = 350
+    widget_height = 200
+    padding = 15
+
+    widget_x = Width - widget_width - 40
+
+    widget_y = Height // 2 - widget_height // 2
+
+    bg_color = (40, 40, 40)
+    border_color = (90, 90, 90)
+    text_color = (255, 255, 255)
+
+    pygame.draw.rect(screen, bg_color, (widget_x, widget_y, widget_width, widget_height))
+    pygame.draw.rect(screen, border_color, (widget_x, widget_y, widget_width, widget_height), 2)
+
+    widget_title_font = pygame.font.Font(None, 30)
+    post_title_font = pygame.font.Font(None, 22)
+    post_body_font = pygame.font.Font(None, 11)
+
+    # Widget title
+    header = widget_title_font.render("Top Reddit Posts", True, text_color)
+    screen.blit(header, (widget_x + padding, widget_y + padding))
+
+    start_y = widget_y + 45
+
+    for i in range(3):
+        try:
+            post_title = reddit_posts.data.children[i].data.title[:45]
+            post_text = reddit_posts.data.children[i].data.selftext[:100]
+        except:
+            post_title = "No post available"
+            post_text = ""
+
+        title_surface = post_title_font.render(f"{i+1}. {post_title}", True, text_color)
+        screen.blit(
+            title_surface,
+            (widget_x + padding, start_y + i * 40)
+        )
+
+        body_surface = post_body_font.render(f"{i+1}. {post_text}", True, text_color)
+        screen.blit(
+            body_surface,
+            (widget_x + padding, start_y + i * 75)
+        )
 
 def menu_buttons():
     """
