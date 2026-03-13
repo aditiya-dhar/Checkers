@@ -110,17 +110,34 @@ def main():
     # done! time to quit
     pygame.quit()
 
+def wrap_text(text, font, max_width):
+    words = text.split(' ')
+    lines = []
+    current_line = ""
+
+    for word in words:
+        test_line = current_line + word + " "
+        width, _ = font.size(test_line)
+
+        if width <= max_width:
+            current_line = test_line
+        else:
+            lines.append(current_line)
+            current_line = word + " "
+
+    lines.append(current_line)
+    return lines
+
 def draw_reddit_widget(reddit_posts: RedditResponse):
     """
-    Draws a small widget on the right side of the screen showing the top 3 reddit posts.
+    Draws a reddit widget showing the top 3 posts with wrapped body text.
     """
 
-    widget_width = 350
-    widget_height = 200
+    widget_width = 420
+    widget_height = 380
     padding = 15
 
     widget_x = Width - widget_width - 40
-
     widget_y = Height // 2 - widget_height // 2
 
     bg_color = (40, 40, 40)
@@ -130,35 +147,36 @@ def draw_reddit_widget(reddit_posts: RedditResponse):
     pygame.draw.rect(screen, bg_color, (widget_x, widget_y, widget_width, widget_height))
     pygame.draw.rect(screen, border_color, (widget_x, widget_y, widget_width, widget_height), 2)
 
-    widget_title_font = pygame.font.Font(None, 30)
-    post_title_font = pygame.font.Font(None, 22)
-    post_body_font = pygame.font.Font(None, 11)
+    widget_title_font = pygame.font.Font(None, 32)
+    post_title_font = pygame.font.Font(None, 24)
+    post_body_font = pygame.font.Font(None, 18)
 
-    # Widget title
-    header = widget_title_font.render("Top Reddit Posts", True, text_color)
+    header = widget_title_font.render("Top r/Temple Posts", True, text_color)
     screen.blit(header, (widget_x + padding, widget_y + padding))
 
-    start_y = widget_y + 45
+    y_offset = widget_y + 50
 
     for i in range(3):
+
         try:
-            post_title = reddit_posts.data.children[i].data.title[:45]
-            post_text = reddit_posts.data.children[i].data.selftext[:100]
+            post_title = reddit_posts.data.children[i].data.title
+            post_text = reddit_posts.data.children[i].data.selftext[:200]
         except:
             post_title = "No post available"
             post_text = ""
 
-        title_surface = post_title_font.render(f"{i+1}. {post_title}", True, text_color)
-        screen.blit(
-            title_surface,
-            (widget_x + padding, start_y + i * 40)
-        )
+        title_surface = post_title_font.render(f"{i+1}. {post_title[:60]}", True, text_color)
+        screen.blit(title_surface, (widget_x + padding, y_offset))
+        y_offset += 25
 
-        body_surface = post_body_font.render(f"{i+1}. {post_text}", True, text_color)
-        screen.blit(
-            body_surface,
-            (widget_x + padding, start_y + i * 75)
-        )
+        wrapped_lines = wrap_text(post_text[:200], post_body_font, widget_width - padding*2)
+
+        for line in wrapped_lines[:4]:
+            body_surface = post_body_font.render(line, True, text_color)
+            screen.blit(body_surface, (widget_x + padding, y_offset))
+            y_offset += 18
+
+        y_offset += 20
 
 def menu_buttons():
     """
